@@ -102,14 +102,28 @@ def muget_reponse(user):
     # TODO : here
     return Reponse.get_or_404(id)
 
+def mdelete_questionnaire(questionnaire):
+    db.session.remove(questionnaire)
+    db.commit()
+    return questionnaire
+
+def mdelete_question(question):
+    db.session.remove(question)
+    db.commit()
+    return question
+
+
 def madd_questionnaire(title : str) -> Questionnaire:
     q = Questionnaire(title)
     db.session.add(q)
+    db.commit()
     return q
 
 def madd_question(questionnaire : Questionnaire,title : str,reponse : str) -> Question:
     q = Question(title = title , questionnaire = questionnaire , reponse=reponse)
     db.session.add(q)
+    db.commit()
+    return q
 
 
 def madd_reponse(question : Question,user : User,reponse : str ):
@@ -117,6 +131,8 @@ def madd_reponse(question : Question,user : User,reponse : str ):
                 ,user=user
                 ,reponse=reponse)
     db.session.add(q)
+    db.commit()
+    return q
 
 def mget_user(id):
     return User.query.get(0)

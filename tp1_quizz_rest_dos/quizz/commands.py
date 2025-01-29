@@ -2,7 +2,6 @@ from .models import *
 import yaml
 import click
 from .app import app, db
-from .models import User
 from hashlib import sha256
 
 
@@ -27,6 +26,8 @@ def loaddb(filename):
 
     q = madd_questionnaire("questionnairedos_test")
     qu = madd_question(q,"questiondos_test","123")
+
+    db.commit()
 
 
 @app.cli.command()
