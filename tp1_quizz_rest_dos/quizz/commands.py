@@ -6,8 +6,7 @@ from hashlib import sha256
 
 
 @app.cli.command()
-@click.argument('filename')
-def loaddb(filename):
+def loaddb():
     """Creates the tables and populates them with data."""
     # création de toutes les tables
     db.create_all()
@@ -27,14 +26,14 @@ def loaddb(filename):
     q = madd_questionnaire("questionnairedos_test")
     qu = madd_question(q,"questiondos_test","123")
 
-    db.commit()
+    db.session.commit()
+    print("db created success")
 
 
 @app.cli.command()
 def syncdb():
     """Creates all missing tables."""
     db.create_all()
-
 
 @app.cli.command()
 @click.argument('username')
