@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Vos tâches</title>
+
+  <link rel="stylesheet" href="css/flex.css" />
+
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+  <script>
+    $(function () {
+      $("#tabs").tabs();
+    });
+  </script>
+
+  <script src="js/todo.js"></script>
+  <script src="js/quizz.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <h1 id="header">TODOOS</h1>
+  </header>
+
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabsT">TODOOS</a></li>
+      <li><a href="#tabsQ">QUIZZS</a></li>
+    </ul>
+  </div>
+
+  <div id="tabsT">
+
+    <div id='main'>
+
+      <nav id="nav1">
+        <h2>Todo</h2>
+        <input id="button" type="button" value="Recuperer les taches" />
+        <div id="taches">
+        </div>
+      </nav>
+
+      <article>
+        <h2>Editeur de Tâches</h2>
+        <section id="tools">
+          <img id="add" src="img/new.png" alt="Nouvelle chose à faire" />
+          <img id="del" src="img/delete.png" alt="Enlever cette tache" />
+        </section>
+        <section id="currenttask"> </section>
+      </article>
+    </div>
+
+  </div>
+
+  <div id="tabsQ">
+
+    <div id='Qmain'>
+
+      <nav id="Qnav1">
+        <h2>Questionnaires</h2>
+        <input id="Qbutton" type="button" value="Recuperer les Questionnaires" />
+        <div id="Qquestionnaires">
+        </div>
+      </nav>
+
+      <article>
+        <h2>explorer de Questions</h2>
+        <section id="Qtools">
+          <p>Questionnaires</p>
+          <img id="Qadd" src="img/new.png" alt="Nouveau Questionnaire" />
+          <img id="Qdel" src="img/delete.png" alt="Enlever Questionnaire" />
+          <p>Questions</p>
+          <img id="Qadd" src="img/new.png" alt="Nouvelle Questions" />
+          <img id="Qdel" src="img/delete.png" alt="Enlever Questions" />
+        </section>
+        <section id="Qcurrentquestion"> </section>
+      </article>
+
+      <article>
+        <h2>explorer de reponse</h2>
+        <section id="Qrtools">
+          <img id="Qradd" src="img/new.png" alt="faire réponse" />
+        </section>
+        <section id="Qrcurrentreponse"> </section>
+      </article>
+    </div>
+
+  </div>
+
+  <footer>
+    <div data-role="footer" class="ui-bar">
+      <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
+    </div>
+  </footer>
+
+</body>
+
+</html>
