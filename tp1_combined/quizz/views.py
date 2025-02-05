@@ -14,7 +14,7 @@ from flask_login import login_user, current_user, login_required
 ##################### TO DO #####################
 
 def make_public_task(taskT : Tasks):
-    task = mget_task(taskT.id).to_json()
+    task = [tuple(row) for row in mget_task(taskT.id)].to_json()
     new_task = {}
     for field in task:
         if field =="id":
@@ -25,12 +25,12 @@ def make_public_task(taskT : Tasks):
 
 @app.route("/todo/api/v1.0/tasks", methods=["GET"])
 def get_tasks():
-    tasks = mget_tasks()
+    tasks = [tuple(row) for row in mget_tasks()]
     return jsonify(tasks=[make_public_task(t) for t in tasks])
 
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["GET"])
 def get_task(task_id):
-    task = mget_task(task_id)
+    task = [tuple(row) for row in mget_task(task_id)]
     return jsonify(task=make_public_task(task))
 
 @app.route("/todo/api/v1.0/tasks", methods=["POST"])
@@ -44,7 +44,7 @@ def create_task():
 
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
-    task = mget_task(task_id)
+    task = [tuple(row) for row in mget_task(task_id)]
 
     if not request.json:
         abort(400, description="Missing JSON request body")
@@ -75,8 +75,10 @@ def delete_task(task_id):
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(0)
+def load_user():
+    print("USER",User.query.all())
+    print("USER",User.query.first())
+    return User.query.first()
     # return User.query.get(user_id)
 
 
@@ -99,18 +101,29 @@ def not_found(error):
 
 @app.route("/quizz/api/v1.0/login", methods=["GET", "POST", "PUT", "DELETE"])
 def login():
-    login_user(load_user(0), remember=True)
-    return make_response(jsonify({"status": "success", "userid": current_user.id}), 400)
+    try:
+        print("login here")
+        print(current_user)
+        login_user(load_user(), remember=True , force=True)
+        print(current_user.to_json())
+    except Exception:
+        pass
+    return make_response(jsonify({"status": "success", "userid": current_user.id}), 200)
 
 
 @app.route("/quizz/api/v1.0/questionnaire", methods=["GET"])
 def get_questionnaires():
-    return make_response(jsonify(questionnaire=mget_questionnaires()), 400)
+    print()
+    print("HERE")
+    print([tuple(row) for row in mget_questionnaires()])
+    print(jsonify(questionnaire=[tuple(row) for row in mget_questionnaires()]))
+    print()
+    return make_response(jsonify(questionnaire=[tuple(row) for row in mget_questionnaires()]), 200)
 
 
 @app.route("/quizz/api/v1.0/questionnaire/<int:question_id>", methods=["GET"])
 def get_questionnaire(question_id):
-    return make_response(jsonify(questionnaire=mget_questionnaire(question_id)), 404)
+    return make_response(jsonify(questionnaire=[tuple(row) for row in mget_questionnaire(question_id)]), 200)
 
 
 @login_required
@@ -118,7 +131,7 @@ def get_questionnaire(question_id):
 def create_questionnaire():
     if not request.json or not "title" in request.json:
         abort(400)
-    return make_response(jsonify(questionnaire=madd_questionnaire(request.json["title"])), 400)
+    return make_response(jsonify(questionnaire=madd_questionnaire(request.json["title"])), 200)
 
 
 @login_required
@@ -130,14 +143,14 @@ def update_questionnaire(question_id):
 @login_required
 @app.route("/quizz/api/v1.0/questionnaire/<int:question_id>", methods=["DELETE"])
 def delete_questionnaire(question_id):
-    return make_response(jsonify(questionnaire=mdelete_questionnaire(mget_questionnaire(question_id))), 400)
+    return make_response(jsonify(questionnaire=[tuple(row) for row in  mdelete_questionnaire(mget_questionnaire(question_id))]), 200)
 
 # question
 
 
 @app.route("/quizz/api/v1.0/question/<int:question_id>", methods=["GET"])
 def get_question(question_id):
-    return make_response(jsonify(question=mget_question(question_id)), 400)
+    return make_response(jsonify(question=[tuple(row) for row in mget_question(question_id)]), 200)
 
 
 @login_required
@@ -155,7 +168,7 @@ def update_question(question_id):
 @login_required
 @app.route("/quizz/api/v1.0/questions/<int:question_id>", methods=["DELETE"])
 def delete_question(question_id):
-    return make_response(jsonify(question=mdelete_question(mget_question(question_id))), 400)
+    return make_response(jsonify(question=[tuple(row) for row in mdelete_question(mget_question(question_id))]), 200)
 
 
 # reponse
@@ -163,4 +176,4 @@ def delete_question(question_id):
 @login_required
 @app.route("/quizz/api/v1.0/questions/<int:question_id>/<reponse>", methods=["POST"])
 def update_reponse(question_id, reponse):
-    return make_response(jsonify(reponse=madd_reponse(mget_question(question_id), current_user, reponse)), 400)
+    return make_response(jsonify(reponse=[tuple(row) for row in madd_reponse( mget_question(question_id), current_user, reponse)]), 200)

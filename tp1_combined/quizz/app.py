@@ -9,7 +9,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 app.config['SECRET_KEY'] = "8e202471-f369-40b7-a917-516553e1b4c3"
-cors = CORS(app , resources ={r"/todo/api/v1.0/*": {"origins": "*"}})
+cors = CORS(app , resources =
+            {"/todo/api/v1.0/*": {"origins": "*"}
+            ,"/quizz/api/v1.0/*": {"origins": "*"}}
+            )
 
 bootstrap = Bootstrap5(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = ('sqlite:///db.sqllite') 
