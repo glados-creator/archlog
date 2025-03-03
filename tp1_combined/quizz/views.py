@@ -14,18 +14,18 @@ from flask_login import login_user, current_user, login_required
 ##################### TO DO #####################
 
 def make_public_task(taskT : Tasks):
-    task = [tuple(row) for row in mget_task(taskT.id)].to_json()
     new_task = {}
-    for field in task:
+    for field in taskT:
         if field =="id":
-            new_task["uri"] = url_for("get_task", task_id=task["id"], _external=True)
+            new_task["uri"] = url_for("get_task", task_id=taskT["id"], _external=True)
         else:
-            new_task[field] = task[field]
+            new_task[field] = taskT[field]
     return new_task
 
 @app.route("/todo/api/v1.0/tasks", methods=["GET"])
 def get_tasks():
-    tasks = [tuple(row) for row in mget_tasks()]
+    print("get_tasks",mget_tasks())
+    tasks = mget_tasks()
     return jsonify(tasks=[make_public_task(t) for t in tasks])
 
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["GET"])
@@ -44,7 +44,7 @@ def create_task():
 
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
-    task = [tuple(row) for row in mget_task(task_id)]
+    task = mget_task(task_id)
 
     if not request.json:
         abort(400, description="Missing JSON request body")
@@ -60,8 +60,9 @@ def update_task(task_id):
     task.description = request.json.get("description", task.description)
     task.done = request.json.get("done", task.done)
 
+    print("set task",task.to_json())
     db.session.commit()
-    return jsonify({"task": make_public_task(task)})
+    return jsonify({"task": make_public_task(task.to_json())})
 
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
@@ -76,7 +77,7 @@ def delete_task(task_id):
 
 @login_manager.user_loader
 def load_user():
-    print("USER",User.query.all())
+    # print("USER",User.query.all())
     print("USER",User.query.first())
     return User.query.first()
     # return User.query.get(user_id)
@@ -103,27 +104,29 @@ def not_found(error):
 def login():
     try:
         print("login here")
-        print(current_user)
+        print("login",current_user)
         login_user(load_user(), remember=True , force=True)
-        print(current_user.to_json())
+        print("login json",current_user.to_json())
+        return make_response(jsonify({"status": "success", "userid": current_user.id}), 200)
     except Exception:
         pass
-    return make_response(jsonify({"status": "success", "userid": current_user.id}), 200)
+        return make_response(jsonify({"status": "fail", "userid": 0}), 201)
 
 
 @app.route("/quizz/api/v1.0/questionnaire", methods=["GET"])
 def get_questionnaires():
     print()
-    print("HERE")
-    print([tuple(row) for row in mget_questionnaires()])
-    print(jsonify(questionnaire=[tuple(row) for row in mget_questionnaires()]))
+    print("HERE questionnaires")
+    # print(mget_questionnaires())
+    # print([tuple(row) for row in mget_questionnaires()])
+    print(jsonify(questionnaire=mget_questionnaires()))
     print()
-    return make_response(jsonify(questionnaire=[tuple(row) for row in mget_questionnaires()]), 200)
+    return make_response(jsonify(questionnaire=mget_questionnaires()), 200)
 
 
 @app.route("/quizz/api/v1.0/questionnaire/<int:question_id>", methods=["GET"])
 def get_questionnaire(question_id):
-    return make_response(jsonify(questionnaire=[tuple(row) for row in mget_questionnaire(question_id)]), 200)
+    return make_response(jsonify(questionnaire=mget_questionnaire(question_id).to_json()), 200)
 
 
 @login_required

@@ -17,7 +17,7 @@ body {
     text-align: center;
   }
 
-  #main > article {
+   article {
    margin: 4px;
    padding: 5px;
    border: 1px solid #cccc33;
@@ -29,7 +29,7 @@ body {
            order: 2;
    }
   
-  #main > #nav1 {
+   #nav1 {
    margin: 4px;
    padding: 5px;
    border: 1px solid #8888bb;
@@ -41,7 +41,7 @@ body {
            order: 1;
    }
   
-  #main > #nav2 {
+   #nav2 {
    margin: 4px;
    padding: 5px;
    border: 1px solid #8888bb;
@@ -81,13 +81,13 @@ body {
             flex-direction: column;
    }
 
-   #main > article, #main > #nav1, #main > #nav2 {
+    article,  #nav1,  #nav2 {
     /* Return them to document order */
     -webkit-order: 0;
             order: 0;
    }
   
-   #main > #nav1, #main > #nav2, header, footer {
+    #nav1,  #nav2, header, footer {
     min-height: 150px;
    }
   }
