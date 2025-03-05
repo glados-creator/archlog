@@ -1,0 +1,1 @@
+export const ENDPOINT = "https://localhost:5000/articles";
