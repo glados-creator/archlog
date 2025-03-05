@@ -2,108 +2,115 @@
 <html lang="fr">
 
 <head>
-  <meta charset="utf-8" />
-  <title>Vos tâches</title>
+    <meta charset="utf-8" />
+    <title>Vos tâches</title>
+    <!-- USE THE SOURCE MIN JQUERY NOT JUST SOME FILES -->
+    <!-- JQUERRY bump version from 3.4.1 to 3.7.1 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <!-- JQUERRY-UI bump from 1.12.1 to 1.14 -->
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"
+        integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI=" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+        integrity="sha256-LUpAU8h+pO1VS/mXF6vWuo3QKtT9m/SUElNjr1CX8='." crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+    <!-- POPPER.JS i have no idears -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"
+        integrity="sha512-ubuT8Z88WxezgSqf3RLuNi5lmjstiJcyezx34yIU2gAHonIi27Na7atqzUZCOoY4CExaoFumzOsFQ2Ch+I/HCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- BOOTSTRAP bump version from 4.4.1 to 5.2.3 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        integrity="sha384-sA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65'." crossorigin="anonymous"
+        referrerpolicy="no-referrer">
 
-  <link rel="stylesheet" href="css/flex.css" />
-
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-
-  <script src="js/todo.js"></script>
-  <script src="js/quizz.js"></script>
+    <!-- LOCALS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/todo.js"></script>
+    <script src="js/quizz.js"></script>
 </head>
 
 <body>
-  <header>
-    <h1 id="header">TODOOS</h1>
-  </header>
+    <header>
+        <div id="header">
+            <h1>[TODO DOS && QUIZ ZSS]</h1>
+            <h1>flask REST - SQLlite - SQLalchemy</h1>
+            <h1>Jquery</h1>
+            <h3>PAVARD Arthur</h3>
+        </div>
+    </header>
 
-  <div id="tabs">
-    <ul>
-      <li><a href="#tabsT">TODOOS</a></li>
-      <li><a href="#tabsQ">QUIZZS</a></li>
-    </ul>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabsT">TODODOS</a></li>
+            <li><a href="#tabsQ">QUIZZSS</a></li>
+        </ul>
 
-    <div id="tabsT">
-      <div id='main'>
-        <nav id="nav1">
-          <h2>Todo</h2>
-          <input id="button" type="button" value="Recuperer les taches" />
-          <div id="taches"></div>
-        </nav>
-        <article>
-          <h2>Editeur de Tâches</h2>
-          <section id="tools">
-            <img id="add" src="img/new.png" alt="Nouvelle chose à faire" />
-            <img id="del" src="img/delete.png" alt="Enlever cette tache" />
-          </section>
-          <section id="currenttask"></section>
-        </article>
-      </div>
+        <div id="tabsT">
+            <div id='Tmain'>
+                <nav id="Tnav1">
+                    <h2>Todo</h2>
+                    <input id="button" type="button" value="Recuperer les taches" />
+                    <div id="taches"></div>
+                </nav>
+                <article>
+                    <h2>Editeur de Tâches</h2>
+                    <section id="tools">
+                        <img id="add" src="img/new.png" alt="Nouvelle chose à faire" />
+                        <img id="del" src="img/delete.png" alt="Enlever cette tache" />
+                    </section>
+                    <section id="currenttask"></section>
+                </article>
+            </div>
+        </div>
+
+        <div id="tabsQ">
+            <div id='Qmain'>
+                <nav id="Qnav1">
+                    <h2>Questionnaires</h2>
+                    <input id="Qbutton" type="button" value="Recuperer les Questionnaires" />
+                    <div id="Qquestionnaires"></div>
+                </nav>
+                <article>
+                    <h2>Edit Questionnaire</h2>
+                    <section id="Qtool">
+                        <p>Questionnaires</p>
+                        <img id="QaddQuiz" src="img/new.png" alt="Nouveau Questionnaire" />
+                        <img id="QdelQuiz" src="img/delete.png" alt="Enlever Questionnaire" />
+                        <p>Questions</p>
+                    </section>
+                    <section id="Qcurrentquestion"></section>
+                </article>
+                <article>
+                    <h2>Edit Questions</h2>
+                    <section id="Qtools">
+                        <p>Question</p>
+                        <img id="QaddQuestion" src="img/new.png" alt="Nouvelle Question" />
+                        <img id="QdelQuestion" src="img/delete.png" alt="Enlever Question" />
+                    </section>
+                    <section id="Qcurrentquestion2"></section> <!-- Renamed to avoid duplicate ID -->
+                    <section id="Qrcurrentreponse"></section>
+                    <input id="QRbutton" type="button" value="submit reponse" />
+                </article>
+            </div>
+        </div>
     </div>
 
-    <div id="tabsQ">
-      <div id='Qmain'>
-        <nav id="Qnav1">
-          <h2>Questionnaires</h2>
-          <input id="Qbutton" type="button" value="Recuperer les Questionnaires" />
-          <div id="Qquestionnaires"></div>
-        </nav>
-        <article>
-          <h2>Edit Questionnaire</h2>
-          <section id="Qtool">
-            <p>Questionnaires</p>
-            <img id="QaddQuiz" src="img/new.png" alt="Nouveau Questionnaire" />
-            <img id="QdelQuiz" src="img/delete.png" alt="Enlever Questionnaire" />
-            <p>Questions</p>
-            <img id="QaddQuestion" src="img/new.png" alt="Nouvelle Questions" />
-            <img id="QdelQuestion" src="img/delete.png" alt="Enlever Questions" />
-          </section>
-          <section id="Qcurrentquestion"></section>
-        </article>
-        <article>
-          <h2>Edit Questions</h2>
-          <section id="Qtools">
-            <p>Questionnaires</p>
-            <img id="Qadd" src="img/new.png" alt="Nouveau Questionnaire" />
-            <img id="Qdel" src="img/delete.png" alt="Enlever Questionnaire" />
-            <p>Questions</p>
-            <img id="QaddQuestion2" src="img/new.png" alt="Nouvelle Questions" />
-            <img id="QdelQuestion2" src="img/delete.png" alt="Enlever Questions" />
-          </section>
-          <section id="Qcurrentquestion2"></section> <!-- Renamed to avoid duplicate ID -->
-          <section id="Qrcurrentreponse"></section>
-        </article>
-      </div>
-    </div>
-  </div>
+    <footer>
+        <div data-role="footer" class="ui-bar">
+            <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
+        </div>
+    </footer>
 
-  <footer>
-    <div data-role="footer" class="ui-bar">
-      <h4>©Département Informatique ⚛ IUT d'Orléans</h4>
-    </div>
-  </footer>
-
-  <script>
-    $(document).ready(function() {
-      $("#tabs").tabs(); // Initialize tabs on document ready
-    });
-  </script>
+    <script>
+        $(document).ready(function () {
+            $("#tabs").tabs(); // Initialize tabs on document ready
+        });
+    </script>
 </body>
 
 </html>
