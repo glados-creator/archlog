@@ -1,5 +1,5 @@
 $(function() {
-    // Improved initial login fetch
+    // mock user fetch
     fetch("http://127.0.0.1:5000/quizz/api/v1.0/login")
         .then(response => response.json())
         .then(data => console.log('Login response:', data))
@@ -7,12 +7,12 @@ $(function() {
 
     $("#Qbutton").click(refreshQuestionnaire);
     $("#Qtool #QaddQuiz").click(() => formQuiz(true)); // Changed to create new quiz
-    $("#Qtool #QaddQuestion").click(() => formQuestion(true)); // Changed to create new question
+    // $("#Qtool #QaddQuestion").click(() => formQuestion(true)); // Changed to create new question
 
     function fillListQuestionnaire(repjson) {
-        console.log(JSON.stringify(repjson));
         $('#Qquestionnaires').empty();
         $('#Qquestionnaires').append($('<ul>'));
+        console.log("fillListQuestionnaire",JSON.stringify(repjson));
         for (let quizData of repjson.questionnaire) {  
             const quiz = new Questionnaire(quizData.id, quizData.name, quizData.questions);
             $('#Qquestionnaires ul')
@@ -39,9 +39,12 @@ $(function() {
     }
 
     function fillListQuestion(repjson) {
-        console.log(JSON.stringify(repjson));
+        // only have button when questionnaire is there
+        $("#Qtool #QaddQuestion").click(() => formQuestion(true)); // Changed to create new question
+        
         $('#Qcurrentquestion2').empty(); // Use second section for questions
         $('#Qcurrentquestion2').append($('<ul>'));
+        console.log("fillListQuestion",JSON.stringify(repjson));
         for (let questionData of repjson) {
             const question = new Question(questionData.id, questionData.title, questionData.reponse);
             $('#Qcurrentquestion2 ul')
@@ -69,6 +72,7 @@ $(function() {
 
     // Edit functions using classes
     function editQuiz(event) {
+        console.log("editQuiz",event);
         $("#Qcurrentquestion").empty();
         formQuiz(false);
         fillFormQuiz(event.data);

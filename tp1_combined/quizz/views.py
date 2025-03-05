@@ -1,18 +1,21 @@
+### ALL OF THE IMPORTS ###
 from flask import jsonify, abort, make_response, request, url_for
 from .app import app
 from .models import *
 
+from flask_login import login_user, current_user, login_required
 
 from .app import app, login_manager
-from .models import User
 # from flask_wtf import FlaskForm
 # from wtforms import StringField, HiddenField, PasswordField
 # from wtforms.validators import DataRequired
 # from hashlib import sha256
-from flask_login import login_user, current_user, login_required
+### ALL OF THE IMPORTS ###
 
-##################### TO DO #####################
 
+##################### TO DO TASK #####################
+
+# proxy function wrapper
 def make_public_task(taskT : Tasks):
     new_task = {}
     for field in taskT:
@@ -22,17 +25,20 @@ def make_public_task(taskT : Tasks):
             new_task[field] = taskT[field]
     return new_task
 
+# get all the tasks
 @app.route("/todo/api/v1.0/tasks", methods=["GET"])
 def get_tasks():
     print("get_tasks",mget_tasks())
     tasks = mget_tasks()
     return jsonify(tasks=[make_public_task(t) for t in tasks])
 
+# get a taks by it s ID
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["GET"])
 def get_task(task_id):
     task = [tuple(row) for row in mget_task(task_id)]
     return jsonify(task=make_public_task(task))
 
+# create a new task
 @app.route("/todo/api/v1.0/tasks", methods=["POST"])
 def create_task():
     if not request.json or "title" not in request.json:
@@ -42,10 +48,11 @@ def create_task():
 
     return jsonify({"task": make_public_task(new_task)}), 201
 
+# update a task with ID
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
     task = mget_task(task_id)
-
+    # some inputs validation
     if not request.json:
         abort(400, description="Missing JSON request body")
 
@@ -64,6 +71,7 @@ def update_task(task_id):
     db.session.commit()
     return jsonify({"task": make_public_task(task.to_json())})
 
+# delete a task by ID and return it
 @app.route("/todo/api/v1.0/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
     task = mdelete_tasks(task_id)
@@ -71,14 +79,15 @@ def delete_task(task_id):
 
 
 ##################### QUIZZ #####################
+##################### QUIZZ #####################
+##################### QUIZZ #####################
 
-# User loader function
-
-
+# dummy User loader function
 @login_manager.user_loader
 def load_user():
     # print("USER",User.query.all())
-    print("USER",User.query.first())
+    # .... there is only one user but there need to be one for the answers framework DB
+    # print("USER",User.query.first())
     return User.query.first()
     # return User.query.get(user_id)
 
