@@ -1,0 +1,27 @@
+body {
+    transition: background 0.3s, color 0.3s;
+}
+
+.hero-section {
+    background: linear-gradient(45deg, #004080, #0080ff);
+    padding: 60px 20px;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+.dark-mode .hero-section {
+    background: linear-gradient(45deg, #002244, #0055aa);
+}
+
+#map-container {
+    background: #cceeff;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.dark-mode #map-container {
+    background: #003366;
+}
