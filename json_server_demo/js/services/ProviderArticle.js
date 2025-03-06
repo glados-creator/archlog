@@ -1,7 +1,7 @@
 import { ENDPOINT } from "../config.js";
 export default class ProviderArticle {
 
-    static FetchArticles = async (limite=10) => {
+    static FetchArticles = async ({page=0,limite=20}) => {
         const options = {
             methode : "GET",
             header : {
@@ -28,7 +28,7 @@ export default class ProviderArticle {
         };
 
         try {
-            const rep = await fetch(`${ENDPOINT}/${id}`,options);
+            const rep = await fetch(`${ENDPOINT}?id=${id}`,options);
             const json = await rep.json();
             return json;
         } catch (error) {

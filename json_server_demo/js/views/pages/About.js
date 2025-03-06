@@ -1,5 +1,5 @@
 export default class About {
-    static async render(){
+    async render(){
         return `
         <section>
         <h1>about</h1>
