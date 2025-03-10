@@ -39,6 +39,9 @@ class Article(db.Model):
         db.session.commit ()
         return article
 
+    @staticmethod
+    def get_comments(id):
+        return Article.query.get(id).comments
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
