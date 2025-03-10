@@ -1,0 +1,14 @@
+curl -i  http://localhost:5000/todo/api/v1.0/tasks
+
+curl -i -H "Content-Type: application/json" -X POST -d '{"title":"Read a book"}' http://localhost:5000/todo/api/v1.0/tasks
+
+# POST Echoue car pas de title fourni
+curl -i -H "Content-Type: application/json" -X PUT -d '{"done":true}' http://localhost:5000/todo/api/v1.0/tasks/3
+# POST OK 
+curl -i -H "Content-Type: application/json" -X POST -d '{"title":"Learn APIs"}' http://localhost:5000/todo/api/v1.0/tasks
+
+# PUT avec tous les champs : OK
+curl -i -H "Content-Type: application/json" -X PUT -d '{"title": "APIS REST", "description": "Créer une API en Flask", "done":true}' http://localhost:5000/todo/api/v1.0/tasks/3
+
+# DELETE
+curl -i -H "Content-Type: application/json" -X DELETE http://localhost:5000/todo/api/v1.0/tasks/3
