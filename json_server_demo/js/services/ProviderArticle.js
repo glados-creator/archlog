@@ -30,7 +30,7 @@ export default class ProviderArticle {
         try {
             const rep = await fetch(`${ENDPOINT}?id=${id}`,options);
             const json = await rep.json();
-            return json;
+            return json[0];
         } catch (error) {
             console.error(error);
             return {};
