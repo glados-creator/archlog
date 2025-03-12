@@ -38,6 +38,13 @@ class Article(db.Model):
         db.session.delete(article)
         db.session.commit ()
         return article
+    
+    @staticmethod
+    def get_comments(id):
+        article = Article.query.get(id)
+        if article is None:
+            return None
+        return article.comments
 
 
 class Comment(db.Model):
