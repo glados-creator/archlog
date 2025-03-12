@@ -26,13 +26,13 @@ class ArticleCollection(Resource):
         return Article.create_article(title=ns.payload["title"], content=ns.payload["content"]), 201
 
 
-@ns.route("/comments")
+@ns.route("/comments/<int:article_id>")
 @ns.response(404, "Article not found")
 class commentCollection(Resource):
     @ns.expect(comment_create_model)
     @ns.marshal_with(comment_model_id)
-    def post(self):
-        comment = Comment.create_comment(article_id=ns.payload["article_id"], content=ns.payload["content"])
+    def post(self,article_id):
+        comment = Comment.create_comment(article_id=article_id, content=ns.payload["content"])
         if comment is None:
             abort(404, "Article not found")
         return comment, 201

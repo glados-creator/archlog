@@ -46,6 +46,9 @@ class Article(db.Model):
             return None
         return article.comments
 
+    @staticmethod
+    def get_comments(id):
+        return Article.query.get(id).comments
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
