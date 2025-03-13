@@ -13,7 +13,7 @@ class Article(db.Model):
 
     @staticmethod
     def get_article(id: int):
-        return Article.query.get(id)
+        return Article.query.get_or_404(id)
 
     @staticmethod
     def create_article(title, content):
@@ -24,7 +24,7 @@ class Article(db.Model):
 
     @staticmethod
     def modify_article(id, title, content):
-        article = Article.query.get(id)
+        article = Article.query.get_or_404(id)
         if article is None:
             return None
         article.title = title
@@ -34,21 +34,17 @@ class Article(db.Model):
     
     @staticmethod
     def delete_article(id ):
-        article = Article.query.get(id )
+        article = Article.query.get_or_404(id )
         db.session.delete(article)
         db.session.commit ()
         return article
     
     @staticmethod
     def get_comments(id):
-        article = Article.query.get(id)
+        article = Article.query.get_or_404(id)
         if article is None:
             return None
         return article.comments
-
-    @staticmethod
-    def get_comments(id):
-        return Article.query.get(id).comments
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,7 +54,7 @@ class Comment(db.Model):
 
     @staticmethod
     def get_comment(id: int):
-        return Comment.query.get(id)
+        return Comment.query.get_or_404(id)
 
     @staticmethod
     def create_comment(article_id, content):
@@ -69,7 +65,7 @@ class Comment(db.Model):
 
     @staticmethod
     def modify_comment(id, content):
-        comment = Comment.query.get(id)
+        comment = Comment.query.get_or_404(id)
         if comment is None:
             return None
         comment.content = content
@@ -78,7 +74,9 @@ class Comment(db.Model):
 
     @staticmethod
     def delete_comment(id ):
-        comment = Comment.query.get(id )
+        comment = Comment.query.get_or_404(id )
+        if comment is None:
+            return None
         db.session.delete(comment)
         db.session.commit ()
         return comment

@@ -1,3 +1,13 @@
+<?php
+header('Access-Control-Allow-Origin: *');
+
+header('Access-Control-Allow-Methods: GET, POST , DELETE, PUT');
+
+header("Access-Control-Allow-Headers: X-Requested-With");
+
+header("Referrer-Policy : unsafe-url");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -43,6 +53,7 @@
         <div id="tools">
             <button class="btn btn-primary" id="add-article">Add Article</button>
             <button class="btn btn-danger" id="del-article">Delete Article</button>
+            <button class="btn btn-secondary" id="refresh-articles">Refresh Articles</button>
         </div>
         <h2>Articles</h2>
         <div id="articles"></div>
@@ -52,7 +63,5 @@
     </div>
 
     <div id="currenttask"></div>
-
-    <script src="app.js"></script>
 </body>
 </html>
