@@ -139,8 +139,9 @@ def get_questionnaire(question_id):
 
 
 @login_required
-@app.route("/quizz/api/v1.0/questionnaire/<int:question_id>", methods=["POST"])
+@app.route("/quizz/api/v1.0/questionnaire", methods=["POST"])
 def create_questionnaire():
+    print("create_questionnaire DEBGU ", request.json)
     if not request.json or not "title" in request.json:
         abort(400)
     return make_response(jsonify(questionnaire=madd_questionnaire(request.json["title"])), 200)
@@ -149,7 +150,21 @@ def create_questionnaire():
 @login_required
 @app.route("/quizz/api/v1.0/questionnaire/<int:question_id>", methods=["PUT"])
 def update_questionnaire(question_id):
-    abort(404)
+     # Fetch the existing questionnaire
+    questionnaire = mget_questionnaire(question_id)
+    if not questionnaire:
+        abort(404, description="Questionnaire not found")
+
+    # Parse the incoming JSON data
+    data = request.get_json()
+    if not data:
+        abort(400, description="Invalid JSON data")
+
+    # Update the questionnaire fields
+    questionnaire.name = data.get('name', questionnaire.name)    
+    db.session.commit()
+    
+    return jsonify({"message": "Questionnaire updated successfully"}), 200
 
 
 @login_required
@@ -166,15 +181,35 @@ def get_question(question_id):
 
 
 @login_required
-@app.route("/quizz/api/v1.0/question/<title>/<reponse>/<int:id_questionnaire>", methods=["POST"])
-def create_question(title, reponse, id_questionnaire):
-    abort(400)
+@app.route("/quizz/api/v1.0/question", methods=["POST"])
+def create_question():
+    data = request.get_json()
+    if not data or "title" not in data or "reponse" not in data or "questionnaire_id" not in data:
+        abort(400, description="Missing required fields")
+    
+    questionnaire = mget_questionnaire(data["questionnaire_id"])
+    if not questionnaire:
+        abort(404, description="Questionnaire not found")
+    question = madd_question(questionnaire, data["title"], data["reponse"])
+    return make_response(jsonify(question=question.to_json()), 201)
 
 
 @login_required
 @app.route("/quizz/api/v1.0/questions/<int:question_id>", methods=["PUT"])
 def update_question(question_id):
-    abort(404)
+    question = mget_question(question_id)
+    if not question:
+        abort(404, description="Question not found")
+    
+    data = request.get_json()
+    if not data:
+        abort(400, description="Invalid JSON data")
+    
+    question.title = data.get("title", question.title)
+    question.reponse = data.get("reponse", question.reponse)
+    db.session.commit()
+    
+    return jsonify({"message": "Question updated successfully"}), 200
 
 
 @login_required
@@ -185,7 +220,26 @@ def delete_question(question_id):
 
 # reponse
 
+@app.route("/quizz/api/v1.0/reponse/<int:question_id>", methods=["GET"])
 @login_required
-@app.route("/quizz/api/v1.0/questions/<int:question_id>/<reponse>", methods=["POST"])
-def update_reponse(question_id, reponse):
-    return make_response(jsonify(reponse=[tuple(row) for row in madd_reponse( mget_question(question_id), current_user, reponse)]), 200)
+def get_reponse(question_id):
+    reponse = mget_reponse(question_id, current_user)
+    if not reponse:
+        abort(404, description="No response found for this user and question")
+    return make_response(jsonify(reponse=reponse.to_json()), 200)
+
+
+
+@login_required
+@app.route("/quizz/api/v1.0/reponse/<int:question_id>", methods=["POST"])
+def create_or_update_reponse(question_id):
+    data = request.get_json()
+    if not data or "reponse" not in data:
+        abort(400, description="Missing reponse field")
+    
+    question = mget_question(question_id)
+    if not question:
+        abort(404, description="Question not found")
+    reponse = madd_reponse(question, current_user, data["reponse"])
+    
+    return make_response(jsonify(reponse=reponse.to_json()), 201)

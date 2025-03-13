@@ -161,11 +161,6 @@ class User(db.Model, UserMixin):
             "U_username": self.U_username
         }
 
-def mget_max_id(table: type) -> int:
-    max_id = db.session.query(func.max(table.id)).scalar()
-    next_id = (max_id or 0) + 1
-    return next_id
-
 def mget_questionnaires() -> List[dict]:
     questionnaires = Questionnaire.query.all()
     return [{"id": q.id, "name": q.name} for q in questionnaires]
@@ -210,14 +205,24 @@ def madd_questionnaire(title: str) -> Questionnaire:
 def madd_question(questionnaire: Questionnaire, title: str, reponse: str) -> Question:
     q = Question(title=title, questionnaire=questionnaire, reponse=reponse)
     db.session.add(q)
+    print("DEBUG question add",q)
     db.session.commit()
     return q
 
 def madd_reponse(question: Question, user: User, reponse: str) -> Reponse:
-    q = Reponse(question=question, user=user, reponse=reponse)
-    db.session.add(q)
+    existing_reponse = Reponse.query.filter_by(user_id=user.U_username, question_id=question.id).first()
+    if existing_reponse:
+        existing_reponse.reponse = reponse  # Update response
+    else:
+        existing_reponse = Reponse(question=question, user=user, reponse=reponse)
+        db.session.add(existing_reponse)
+    
     db.session.commit()
-    return q
+    return existing_reponse
+
+def mget_reponse(question_id: int, user: User) -> Optional[Reponse]:
+    return Reponse.query.filter_by(question_id=question_id, user_id=user.U_username).first()
+
 
 def mget_user(id: str) -> Optional[User]:
     # Fixed: Use the provided id instead of hardcoded 0

@@ -16,7 +16,7 @@ const router = async () => {
     const content   = document.querySelector("#content");
     let   request   = Utils.parseRequestURL();
     console.log("router request :",request);
-    let   parsedurl = `/${request.resource || ""}${request.id ? "/:id" : ""}${request.verb ? `/${request.verb}` : ""}`;
+    let   parsedurl = `/${request.resource || ""}${request.id ? "" : "/0"}${request.verb ? `/${request.verb}` : ""}`;
     console.log("router parsedURL :",parsedurl);
     let   page      = routes[parsedurl] ? (new routes[parsedurl]()) : (new ErrorPage());
     console.log("PAGE : ",page);
