@@ -89,7 +89,7 @@ $(function() {
     }
 
     function formQuiz(isNew = true, quiz = null) {
-        $("#Qcurrentquestion").append('<hr>');
+        $("#Qcurrentquestion").empty();
         $("#Qcurrentquestion")
             .append($('<span>Titre<input type="text" id="quiz-title"><br></span>'))
             .append($('<span><input type="hidden" id="quiz-uri"><br></span>'))
@@ -176,8 +176,8 @@ $(function() {
     let selectedQuestionnaireId = null;
 
     function formQuestion(isNew = true, question = null) {
-        $("#Qcurrentquestion").append('<hr>');
-        $("#Qcurrentquestion")
+        $("#Qcurrentquestion2").empty();
+        $("#Qcurrentquestion2")
             .append($('<span>Titre<input type="text" id="question-title"><br></span>'))
             .append($('<span>Réponse<input type="text" id="question-reponse"><br></span>'))
             .append($('<span><input type="hidden" id="question-uri"><br></span>'))
@@ -213,7 +213,7 @@ $(function() {
         })
         .catch(err => {
             console.error(err);
-            $("#Qcurrentquestion").append($('<span>').text('Erreur lors de la sauvegarde'));
+            $("#Qcurrentquestion2").append($('<span>').text('Erreur lors de la sauvegarde'));
         });
     }
 
@@ -238,7 +238,7 @@ $(function() {
         })
         .catch(err => {
             console.error(err);
-            $("#Qcurrentquestion").append($('<span>').text('Erreur lors de la modification'));
+            $("#Qcurrentquestion2").append($('<span>').text('Erreur lors de la modification'));
         });
     }
 
@@ -259,7 +259,7 @@ $(function() {
             })
             .catch(err => {
                 console.error(err);
-                $("#Qcurrentquestion").append($('<span>').text('Erreur lors de la suppression'));
+                $("#Qcurrentquestion2").append($('<span>').text('Erreur lors de la suppression'));
             });
         }
     }
