@@ -9,6 +9,7 @@ $(function() {
 
     function refreshQuestionnaire() {
         $("#Qcurrentquestion").empty();
+        $("#Qcurrentquestion2").empty();
         fetch(`${apiBaseUrl}/questionnaire`)
             .then(response => {
                 if (!response.ok) throw new Error('AJAX Error: ' + response.status);
@@ -47,7 +48,7 @@ $(function() {
     }
 
     function fetchQuestionsForQuestionnaire(quizId) {
-        $("#Qcurrentquestion2").empty();
+        // $("#Qcurrentquestion2").empty();
         fetch(`${apiBaseUrl}/questionnaire/${quizId}`)
             .then(response => {
                 if (!response.ok) throw new Error('AJAX Error: ' + response.status);
@@ -56,32 +57,32 @@ $(function() {
             .then(fillListQuestion)
             .catch(err => {
                 console.error(err);
-                $("#Qcurrentquestion2").html("<b>Impossible de récupérer les Questions du Questionnaire</b>" + err);
+                $("#Qcurrentquestion").html("<b>Impossible de récupérer les Questions du Questionnaire</b>" + err);
             });
     }
 
     function fillListQuestion(repjson) {
-        $('#Qcurrentquestion2').empty();
-        $('#Qcurrentquestion2').append($('<ul>'));
-        if (repjson.questions && Array.isArray(repjson.questions)) {
-            for (let questionData of repjson.questions) {
-                const question = new Question(questionData.id, questionData.title, questionData.reponse);
-                $('#Qcurrentquestion2 ul')
-                    .append($('<li>')
-                        .append($('<a>')
-                            .text(question.title)
-                        ).on("click", question, highlightAndEditQuestion)
-                    );
-            }
+        console.log("fillListQuestion",repjson);
+        // $('#Qcurrentquestion').empty();
+        $('#Qcurrentquestion').append($('<ul>'));
+        for (let index = 0; index < repjson.questionnaire.questions.length; index++) {
+            const questionData = repjson.questionnaire.questions[index];
+            const question = new Question(questionData.id, questionData.title, questionData.reponse);
+            console.log(question);
+            $('#Qcurrentquestion ul')
+                .append($('<li>')
+                    .append($('<a>')
+                        .text(question.title)
+                    ).on("click", question, highlightAndEditQuestion)
+                );
         }
     }
 
     function highlightAndEditQuestion(event) {
+        console.log(event.target);
         const question = event.data;
-        $("#Qcurrentquestion2 li").removeClass("selected"); // Remove highlight from other questions
-        $(event.target).closest("li").addClass("selected"); // Highlight selected question
-        $("#Qcurrentquestion").empty();
-        $("#Qcurrentquestion").append(`
+        $("#Qcurrentquestion2").empty();
+        $("#Qcurrentquestion2").append(`
             <h4>${question.title}</h4>
             <p>Réponse: ${question.reponse}</p>
         `);
@@ -105,7 +106,7 @@ $(function() {
 
     function saveNewQuiz() {
         const quiz = {
-            name: $("#quiz-title").val(),
+            title: $("#quiz-title").val(),
             questions: []
         };
         fetch(`${apiBaseUrl}/questionnaire`, {
@@ -168,7 +169,7 @@ $(function() {
             })
             .catch(err => {
                 console.error(err);
-                $("#Qcurrentquestion").append($('<span>').text('Erreur lors de la suppression'));
+                $("#Qcurrentquestion2").append($('<span>').text('Erreur lors de la suppression'));
             });
         }
     }

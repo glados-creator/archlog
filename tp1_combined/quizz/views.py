@@ -144,7 +144,7 @@ def create_questionnaire():
     print("create_questionnaire DEBGU ", request.json)
     if not request.json or not "title" in request.json:
         abort(400)
-    return make_response(jsonify(questionnaire=madd_questionnaire(request.json["title"])), 200)
+    return make_response(jsonify(questionnaire=madd_questionnaire(request.json["title"]).to_json()), 200)
 
 
 @login_required
